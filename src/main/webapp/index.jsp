@@ -72,7 +72,7 @@
 </head>
 <body>
     <div class="container">
-        <h1>Welcome to Java Web Application</h1>
+        <h1>Hello World</h1>
         <p class="subtitle">Built with Maven - Packaged as WAR</p>
         
         <form action="hello" method="get">
