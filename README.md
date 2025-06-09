@@ -1,5 +1,7 @@
 # Java Web Application
 
+# commit by linux user
+
 A simple Java web application built with Maven that packages to a WAR file.
 
 ## Project Structure
