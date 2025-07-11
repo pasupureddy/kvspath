@@ -1,6 +1,10 @@
 ---
-hosts: localhost
-become: true
-tasks:
-  - name: ping 
-     
+- name: Hello World on Localhost
+  hosts: localhost
+  connection: local
+  gather_facts: false
+
+  tasks:
+    - name: Print Hello World
+      debug:
+        msg: "Hello, World!"
