@@ -6,14 +6,14 @@
 
   vars:
     region: ap-south-1
-    vpc_id: vpc-xxxxxxxxxxxxxxxxx
+    vpc_id: vpc-089f00b10cfbbd809
     sg_name: my-ansible-sg
     description: "Security group created with Ansible"
     allowed_ports:
-      - { proto: tcp, from: 22, to: 22, cidr: 0.0.0.0/0 }
-      - { proto: tcp, from: 80, to: 80, cidr: 0.0.0.0/0 }
-      - { proto: tcp, from: 443, to: 443, cidr: 0.0.0.0/0 }
-
+      - { proto: tcp, from_port: 22, to_port: 22, cidr_ip: 0.0.0.0/0 }
+      - { proto: tcp, from_port: 80, to_port: 80, cidr_ip: 0.0.0.0/0 }
+      - { proto: tcp, from_port: 443, to_port: 443, cidr_ip: 0.0.0.0/0 }
+      - { proto: tcp, from_port: 8080, to_port: 8080, cidr_ip: 0.0.0.0/0 }
   tasks:
     - name: Create security group
       amazon.aws.ec2_group:
@@ -21,8 +21,7 @@
         description: "{{ description }}"
         vpc_id: "{{ vpc_id }}"
         region: "{{ region }}"
-        rules:
-          "{{ allowed_ports }}"
+        rules: "{{ allowed_ports }}"
         rules_egress:
           - proto: all
             cidr_ip: 0.0.0.0/0
