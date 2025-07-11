@@ -4,17 +4,38 @@
   gather_facts: false
   vars:
     region: ap-south-1
-    ec2_access_key: 
-    ec2_secret_key:     
-    key_name: myvpc
+    ec2_access_key: AK
+    ec2_secret_key: 8u   
+    key_name: DevOpsKeyPair
     instance_type: t2.micro
     image_id: ami-0d03cb826412c6b0f
-    security_group: sg-05bcd433a14a8da39         
-    subnet_id: subnet-099d28f2b7913715a
+    #security_group: sg-0f3a748b3b7f11c94
+    subnet_id: subnet-0546d2689721b81f1
     tag_name: TomcatServer
     ssh_user: ec2-user
+    vpc_id: vpc-089f00b10cfbbd809
+    sg_name: my-new-ansible-sg
+    description: "Security group created with Ansible"
+    allowed_ports:
+      - { proto: tcp, from_port: 22, to_port: 22, cidr_ip: 0.0.0.0/0 }
+      - { proto: tcp, from_port: 80, to_port: 80, cidr_ip: 0.0.0.0/0 }
+      - { proto: tcp, from_port: 443, to_port: 443, cidr_ip: 0.0.0.0/0 }
+      - { proto: tcp, from_port: 8080, to_port: 8080, cidr_ip: 0.0.0.0/0 }
 
   tasks:
+    - name: Create security group
+      amazon.aws.ec2_group:
+        name: "{{ sg_name }}"
+        description: "{{ description }}"
+        vpc_id: "{{ vpc_id }}"
+        region: "{{ region }}"
+        rules: "{{ allowed_ports }}"
+        rules_egress:
+          - proto: all
+            cidr_ip: 0.0.0.0/0
+        state: present
+      register: sg_id
+
     - name: Launch EC2 instance
       amazon.aws.ec2_instance:
         name: "{{ tag_name }}"
@@ -24,7 +45,7 @@
         region: "{{ region }}"
         wait: true
         count: 1
-        security_group: "{{ security_group }}"
+        security_group: "{{ sg_id.group_id }}"
         tags:
           Purpose: TomcatApp
       register: ec2_result
