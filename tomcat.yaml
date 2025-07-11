@@ -3,6 +3,7 @@
   hosts: localhost
   gather_facts: false
   vars:
+    ansible_ssh_common_args: '-o StrictHostKeyChecking=no'
     region: ap-south-1
     key_name: myvpc
     instance_type: t2.micro
