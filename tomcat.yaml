@@ -1,0 +1,134 @@
+---
+- name: Launch EC2 and Install Tomcat
+  hosts: localhost
+  gather_facts: false
+  vars:
+    region: ap-south-1
+    key_name: myvpc
+    instance_type: t2.micro
+    image_id: ami-0d03cb826412c6b0f
+    security_group: sg-05bcd433a14a8da39         
+    subnet_id: subnet-099d28f2b7913715a
+    tag_name: TomcatServer
+    ssh_user: ec2-user
+
+  tasks:
+    - name: Launch EC2 instance
+      amazon.aws.ec2_instance:
+        name: "{{ tag_name }}"
+        key_name: "{{ key_name }}"
+        instance_type: "{{ instance_type }}"
+        image_id: "{{ image_id }}"
+        region: "{{ region }}"
+        wait: true
+        count: 1
+        security_group: "{{ security_group }}"
+        tags:
+          Purpose: TomcatApp
+      register: ec2_result
+
+    - name: Wait for SSH to come up
+      ansible.builtin.wait_for:
+        host: "{{ ec2_result.instances[0].public_ip_address }}"
+        port: 22
+        delay: 10
+        timeout: 300
+        state: started
+
+    - name: Add new EC2 instance to host group
+      ansible.builtin.add_host:
+        name: "{{ ec2_result.instances[0].public_ip_address }}"
+        groups: tomcat
+        ansible_user: "{{ ssh_user }}"
+        ansible_ssh_private_key_file: "~/.ssh/my-key.pem"
+
+- name: Install Tomcat on newly launched EC2
+  hosts: tomcat
+  become: true
+  become: yes
+  vars:
+    tomcat_version: 9.0.85
+    tomcat_user: tomcat
+    install_dir: /opt/tomcat  
+    
+  tasks:
+    - name: Install Java
+      yum:
+        name: java-11-amazon-corretto
+        state: present
+
+    - name: Create Tomcat group
+      group:
+        name: "{{ tomcat_user }}"
+
+    - name: Create Tomcat user
+      user:
+        name: "{{ tomcat_user }}"
+        group: "{{ tomcat_user }}"
+        shell: /bin/nologin
+
+    - name: Download Tomcat
+      get_url:
+        url: "https://archive.apache.org/dist/tomcat/tomcat-9/v{{ tomcat_version }}/bin/apache-tomcat-{{ tomcat_version }}.tar.gz"
+        dest: /tmp/apache-tomcat-{{ tomcat_version }}.tar.gz
+
+    - name: Create install directory
+      file:
+        path: "{{ install_dir }}"
+        state: directory
+        owner: root
+        group: root
+
+    - name: Extract Tomcat
+      unarchive:
+        src: /tmp/apache-tomcat-{{ tomcat_version }}.tar.gz
+        dest: "{{ install_dir }}"
+        remote_src: yes
+        extra_opts: [--strip-components=1]
+
+    - name: Change ownership
+      file:
+        path: "{{ install_dir }}"
+        owner: "{{ tomcat_user }}"
+        group: "{{ tomcat_user }}"
+        recurse: yes
+
+    - name: Create systemd service for Tomcat
+      copy:
+        dest: /etc/systemd/system/tomcat.service
+        content: |
+          [Unit]
+          Description=Apache Tomcat Web Application Container
+          After=network.target
+
+          [Service]
+          Type=forking
+
+          Environment=JAVA_HOME=/usr/lib/jvm/java-11-amazon-corretto
+          Environment=CATALINA_PID={{ install_dir }}/temp/tomcat.pid
+          Environment=CATALINA_HOME={{ install_dir }}
+          Environment=CATALINA_BASE={{ install_dir }}
+          Environment='CATALINA_OPTS=-Xms512M -Xmx1024M -server -XX:+UseParallelGC'
+          Environment='JAVA_OPTS=-Djava.security.egd=file:/dev/./urandom'
+
+          ExecStart={{ install_dir }}/bin/startup.sh
+          ExecStop={{ install_dir }}/bin/shutdown.sh
+
+          User={{ tomcat_user }}
+          Group={{ tomcat_user }}
+          UMask=0007
+          RestartSec=10
+          Restart=always
+
+          [Install]
+          WantedBy=multi-user.target
+
+    - name: Reload systemd
+      systemd:
+        daemon_reload: yes
+
+    - name: Enable and start Tomcat
+      systemd:
+        name: tomcat
+        enabled: yes
+        state: started
