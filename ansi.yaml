@@ -135,3 +135,11 @@
         name: tomcat
         enabled: yes
         state: started
+
+    - name: Copy WAR file to Tomcat webapps directory
+      copy:
+        src: /var/lib/jenkins/workspace/my-ci-cd-pipeline/target/webapp.war
+        dest: "{{ install_dir }}/webapps/hello.war"
+        owner: "{{ tomcat_user }}"
+        group: "{{ tomcat_user }}"
+        mode: '0644'
