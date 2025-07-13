@@ -47,7 +47,6 @@
         ansible_ssh_common_args: '-o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null'
         
     - name: Save EC2 IP to /etc/ansible/hosts under [aws] group
-      become: true
       blockinfile:
         path: /etc/ansible/hosts
         block: |
