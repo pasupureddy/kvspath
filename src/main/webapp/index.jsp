@@ -1,98 +1,47 @@
+
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Java Web Application</title>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KTech Online Training</title>
     <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            margin: 0;
-            padding: 0;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        .container {
-            background: white;
-            padding: 2rem;
-            border-radius: 10px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-            text-align: center;
-            max-width: 500px;
-            width: 90%;
-        }
-        h1 {
-            color: #333;
-            margin-bottom: 1rem;
-        }
-        .subtitle {
-            color: #666;
-            margin-bottom: 2rem;
-        }
-        .form-group {
-            margin-bottom: 1rem;
-        }
-        input[type="text"] {
-            padding: 10px;
-            border: 2px solid #ddd;
-            border-radius: 5px;
-            width: 200px;
-            font-size: 16px;
-        }
-        .btn {
-            background: #667eea;
-            color: white;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 16px;
-            margin: 5px;
-            text-decoration: none;
-            display: inline-block;
-            transition: background 0.3s;
-        }
-        .btn:hover {
-            background: #5a6fd8;
-        }
-        .info {
-            margin-top: 2rem;
-            padding: 1rem;
-            background: #f8f9fa;
-            border-radius: 5px;
-            font-size: 14px;
-            color: #666;
-        }
+        body { font-family: Arial; margin: 0; padding: 0; background-color: #f8f8f8; }
+        header { background-color: #004080; color: white; padding: 20px; text-align: center; }
+        nav { background-color: #e0e0e0; padding: 10px; text-align: center; }
+        nav a { margin: 0 15px; text-decoration: none; color: #004080; font-weight: bold; }
+        main { padding: 20px; }
+        footer { background-color: #004080; color: white; padding: 10px; text-align: center; position: fixed; bottom: 0; width: 100%; }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Hello Koti</h1>
-        <p class="subtitle">Built with Maven - Packaged as WAR</p>
-        
-        <form action="hello" method="get">
-            <div class="form-group">
-                <input type="text" name="name" placeholder="Enter your name" />
-            </div>
-            <button type="submit" class="btn">Say Hello</button>
-        </form>
-        
-        <div style="margin-top: 20px;">
-            <a href="hello" class="btn">Hello Servlet</a>
-        </div>
-        
-        <div class="info">
-            <strong>Application Info:</strong><br/>
-            Server Time: <%= new java.util.Date() %><br/>
-            Session ID: <%= session.getId() %><br/>
-            Context Path: <%= request.getContextPath() %>
-        </div>
-    </div>
+
+<header>
+    <h1>Welcome to KTech Online Training Institute</h1>
+    <p>Your one-stop destination for Cloud, DevOps, and IT Training</p>
+</header>
+
+<nav>
+    <a href="index.jsp">Home</a>
+    <a href="courses">Courses</a>
+    <a href="recordings">Recordings</a>
+    <a href="hello?name=Koti">Say Hello</a>
+</nav>
+
+<main>
+    <h2>Hello Koti 👋</h2>
+    <p>This web application is built using <strong>Maven</strong> and packaged as a <strong>WAR</strong> file.</p>
+
+    <h3>Try it out:</h3>
+    <form action="hello" method="get">
+        <label for="name">Enter your name: </label>
+        <input type="text" id="name" name="name" required>
+        <button type="submit">Say Hello</button>
+    </form>
+</main>
+
+<footer>
+    &copy; 2025 KTech Training. All rights reserved.
+</footer>
+
 </body>
 </html>
-
