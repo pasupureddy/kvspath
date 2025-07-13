@@ -1,0 +1,17 @@
+- name: Install Tomcat on newly launched EC2
+  hosts: tomcat
+  become: true
+  vars:
+    ansible_user: ec2-user
+    ansible_ssh_private_key_file: "/var/lib/jenkins/.ssh/my-key.pem"
+    ansible_ssh_common_args: '-o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null'
+    install_dir: /opt/tomcat
+
+  tasks:
+    - name: Copy WAR file to Tomcat webapps directory
+      copy:
+        src: /var/lib/jenkins/workspace/my-ci-cd-pipeline/target/webapp.war
+        dest: "{{ install_dir }}/webapps/ktech.war"
+        owner: "{{ tomcat_user }}"
+        group: "{{ tomcat_user }}"
+        mode: '0644'
