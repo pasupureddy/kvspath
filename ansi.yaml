@@ -54,6 +54,9 @@
           {{ ec2_result.instances[0].public_ip_address }} ansible_user=ec2-user ansible_ssh_private_key_file=/var/lib/jenkins/.ssh/my-key.pem ansible_ssh_common_args='-o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null'
         marker: "# {mark} ANSIBLE MANAGED EC2 HOST"
 
+    - name: Output EC2 instance public IP
+      debug:
+        msg: "New EC2 instance launched with public IP: {{ ec2_result.instances[0].public_ip_address }}"
 
 - name: Install Tomcat on newly launched EC2
   hosts: tomcat
