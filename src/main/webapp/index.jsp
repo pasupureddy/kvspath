@@ -16,7 +16,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            color: white;
+            color: rgb(4, 34, 7);
             font-size: 32px;
             font-weight: bold;
             text-shadow: 2px 2px 5px black;
