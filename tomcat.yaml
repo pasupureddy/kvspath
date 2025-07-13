@@ -46,7 +46,6 @@
 - name: Install Tomcat on newly launched EC2
   hosts: tomcat
   become: true
-  become: yes
   vars:
     tomcat_version: 9.0.85
     tomcat_user: tomcat
