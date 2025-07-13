@@ -9,18 +9,30 @@
         nav { background-color: #e0e0e0; padding: 10px; text-align: center; }
         nav a { margin: 0 15px; text-decoration: none; color: #004080; font-weight: bold; }
         .hero {
-            background-image: url("https://www.publicdomainpictures.net/pictures/320000/velka/online-training.jpg");
-            background-size: cover;
-            background-position: center;
-            height: 300px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: rgb(4, 34, 7);
-            font-size: 32px;
-            font-weight: bold;
-            text-shadow: 2px 2px 5px black;
-        }
+             background-image: url("https://images.pexels.com/photos/4145190/pexels-photo-4145190.jpeg");
+             background-size: cover;
+             background-position: center;
+             height: 320px;
+             position: relative;
+             display: flex;
+             align-items: center;
+             justify-content: center;
+             color: white;
+             font-size: 36px;
+             font-weight: bold;
+             text-shadow: 2px 2px 6px rgba(0,0,0,0.6);
+         }
+         .hero::before {
+             content: "";
+             position: absolute;
+             inset: 0;
+             background-color: rgba(0, 0, 0, 0.5); /* dark overlay */
+         }
+         .hero span {
+             position: relative;
+             z-index: 1;
+         }
+
         main { padding: 20px; }
         section { margin-top: 40px; }
         footer { background-color: #004080; color: white; padding: 10px; text-align: center; margin-top: 40px; }
@@ -37,7 +49,7 @@
     <a href="./recordings">Recordings</a>
 </nav>
 <div class="hero">
-    Learn Anytime. Anywhere.
+    <span>Learn Anytime. Anywhere. Upskill with KTech 🚀</span>
 </div>
 <main>
     <section>
