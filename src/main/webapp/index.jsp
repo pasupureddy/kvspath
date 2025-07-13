@@ -11,6 +11,19 @@
         nav a { margin: 0 15px; text-decoration: none; color: #004080; font-weight: bold; }
         main { padding: 20px; }
         footer { background-color: #004080; color: white; padding: 10px; text-align: center; position: fixed; bottom: 0; width: 100%; }
+        .hero {
+            background-image: url("https://www.publicdomainpictures.net/pictures/320000/velka/online-training.jpg");
+            background-size: cover;
+            background-position: center;
+            height: 300px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 32px;
+            font-weight: bold;
+            text-shadow: 2px 2px 5px black;
+        }
     </style>
 </head>
 <body>
@@ -21,18 +34,22 @@
 </header>
 
 <nav>
-    <a href="index.jsp">Home</a>
-    <a href="courses">Courses</a>
-    <a href="recordings">Recordings</a>
-    <a href="hello?name=Koti">Say Hello</a>
+    <a href="./index.jsp">Home</a>
+    <a href="./courses">Courses</a>
+    <a href="./recordings">Recordings</a>
+    <a href="./hello?name=Koti">Say Hello</a>
 </nav>
+
+<div class="hero">
+    Empower Your Career with KTech Online Training
+</div>
 
 <main>
     <h2>Hello Koti 👋</h2>
     <p>This web application is built using <strong>Maven</strong> and packaged as a <strong>WAR</strong> file.</p>
 
     <h3>Try it out:</h3>
-    <form action="hello" method="get">
+    <form action="./hello" method="get">
         <label for="name">Enter your name: </label>
         <input type="text" id="name" name="name" required>
         <button type="submit">Say Hello</button>
