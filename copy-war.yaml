@@ -1,5 +1,5 @@
 - name: Install Tomcat on newly launched EC2
-  hosts: tomcat
+  hosts: aws
   become: true
   vars:
     ansible_user: ec2-user
