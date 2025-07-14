@@ -12,6 +12,6 @@
       copy:
         src: /var/lib/jenkins/workspace/Java-tomcat-webapp-setup/target/webapp.war
         dest: "{{ install_dir }}/webapps/ktech.war"
-        owner: "{{ tomcat_user }}"
-        group: "{{ tomcat_user }}"
+        owner: "tomcat"
+        group: "tomcat"
         mode: '0644'
