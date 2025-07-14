@@ -10,7 +10,7 @@
   tasks:
     - name: Copy WAR file to Tomcat webapps directory
       copy:
-        src: /var/lib/jenkins/workspace/Java-tomcat-webapp-setup/target/webapp.war
+        src: /var/lib/jenkins/workspace/deploy-war-file/target/webapp.war
         dest: "{{ install_dir }}/webapps/ktech.war"
         owner: "tomcat"
         group: "tomcat"
