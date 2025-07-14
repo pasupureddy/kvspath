@@ -40,7 +40,7 @@
 </head>
 <body>
 <header>
-    <h1>KTech Institute</h1>
+    <h1>KTech Solutions</h1>
     <p>Your one-stop destination for Cloud, DevOps, and IT Training</p>
 </header>
 <nav>
