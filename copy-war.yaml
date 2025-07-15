@@ -1,3 +1,4 @@
+--
 - name: Install Tomcat on newly launched EC2
   hosts: aws
   become: true
