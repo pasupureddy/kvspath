@@ -87,7 +87,7 @@
             <a href="./index.jsp">Home</a>
             <a href="./courses">Courses</a>
             <a href="./recordings">Recordings</a>
-            <a href="./Sample">Build Chatbot</a>
+            <a href="./help.html">Build Chatbot</a>
         </nav>
         <div class="hero">
             <span>Learn Anytime. Anywhere. Upskill with KTech 🚀</span>
