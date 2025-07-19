@@ -7,7 +7,7 @@
     ansible_ssh_common_args: '-o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null'
     ansible_python_interpreter: /usr/bin/python3
     region: ap-south-1
-    key_name: myvpc
+    key_name: koti
     instance_type: t2.micro
     image_id: ami-0d03cb826412c6b0f
     security_group: sg-05bcd433a14a8da39
