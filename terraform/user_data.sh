@@ -35,8 +35,8 @@ mkdir -p /var/lib/jenkins/.ssh
 
 cat > /var/lib/jenkins/.aws/credentials <<EOF
 [default]
-aws_access_key_id = ***
-aws_secret_access_key = ***
+aws_access_key_id = *****
+aws_secret_access_key = *****
 EOF
 
 chown -R jenkins:jenkins /var/lib/jenkins/.aws
