@@ -5,4 +5,5 @@
 crash.log
 *.log
 *.tfplan
+.DS_Store
 
