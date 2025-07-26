@@ -7,11 +7,11 @@
     ansible_ssh_common_args: '-o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null'
     ansible_python_interpreter: /usr/bin/python3
     region: ap-south-1
-    key_name: myvpc
+    key_name: tfdevsops
     instance_type: t2.micro
-    image_id: ami-0d03cb826412c6b0f
-    security_group: sg-05bcd433a14a8da39
-    subnet_id: subnet-099d28f2b7913715a
+    image_id: ami-0d0ad8bb301edb745
+    security_group: sg-0e4e89659146e9846
+    subnet_id: subnet-0546d2689721b81f1
     tag_name: TomcatServer
     ssh_user: ec2-user
 
