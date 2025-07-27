@@ -39,6 +39,13 @@
         timeout: 300
         state: started
 
+    - name: Fix SSH key permissions
+      file:
+        path: /var/lib/jenkins/.ssh/my-key.pem
+        owner: jenkins
+        group: jenkins
+        mode: '0600'
+
     - name: Add new EC2 instance to host group
       ansible.builtin.add_host:
         name: "{{ ec2_result.instances[0].public_ip_address }}"
