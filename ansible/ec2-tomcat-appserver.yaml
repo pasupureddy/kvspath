@@ -13,6 +13,7 @@
         owner: jenkins
         group: jenkins
         mode: '0600'
+      become: true  
 
 # Play 2: Launch EC2 and prepare for Tomcat installation
 - name: Launch EC2 and prepare for Tomcat installation
