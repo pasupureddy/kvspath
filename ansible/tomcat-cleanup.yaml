@@ -1,0 +1,28 @@
+---
+- name: Cleanup EC2 instance by tag
+  hosts: localhost
+  connection: local
+  gather_facts: false
+  vars:
+    region: ap-south-1
+    tag_name: TomcatServer
+
+  tasks:
+    - name: Get EC2 instances with the given tag
+      amazon.aws.ec2_instance_info:
+        region: "{{ region }}"
+        filters:
+          "tag:Name": "{{ tag_name }}"
+      register: ec2_info
+
+    - name: Terminate EC2 instances
+      amazon.aws.ec2_instance:
+        region: "{{ region }}"
+        instance_ids: "{{ ec2_info.instances | map(attribute='instance_id') | list }}"
+        state: absent
+      when: ec2_info.instances | length > 0
+
+    - name: Print termination result
+      debug:
+        msg: "Terminated instances: {{ ec2_info.instances | map(attribute='instance_id') | list }}"
+      when: ec2_info.instances | length > 0
