@@ -4,7 +4,7 @@ variable "region" {
 
 variable "ami_id" {
   description = "Amazon Linux 2 AMI ID"
-  default     = "ami-0a1235697f4afa8a4"
+  default     = "ami-0d0ad8bb301edb745" # Update with the latest Amazon Linux 2 AMI ID for your region
 }
 
 variable "instance_type" {
@@ -13,19 +13,19 @@ variable "instance_type" {
 
 variable "key_name" {
   description = "Name of the SSH key pair"
-  default     = "koti"
+  default     = "cicdkeypair"
 }
 
 variable "public_key_path" {
   description = "Path to your public key file"
-  default     = "~/.ssh/id_ed25519.pub"
+  default     = "C:/Users/AumSaiRam/.ssh/id_ed25519.pub"
 }
 
 variable "vpc_id" {
-  default = "vpc-0d6f0c1573650bbf1"
+  default = "vpc-089f00b10cfbbd809"
 }
 variable "subnet_id" {
-  default = "subnet-099d28f2b7913715a"
+  default = "subnet-0546d2689721b81f1"
 }
 
 variable "name" {

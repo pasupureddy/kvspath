@@ -53,10 +53,10 @@ resource "aws_instance" "ansible_host" {
     connection {
       type        = "ssh"
       user        = "ec2-user"
-      private_key = file("/Users/koteswarp/.ssh/id_ed25519")
+      private_key = file("C:/Users/AumSaiRam/.ssh/id_ed25519")
       host        = self.public_ip
     }
-    source      = "/Users/koteswarp/.ssh/id_ed25519"
+    source      = "C:/Users/AumSaiRam/.ssh/id_ed25519"
     destination = "/tmp/my-key.pem"
   }
 
@@ -65,7 +65,7 @@ resource "aws_instance" "ansible_host" {
     connection {
       type        = "ssh"
       user        = "ec2-user"
-      private_key = file("/Users/koteswarp/.ssh/id_ed25519")
+      private_key = file("C:/Users/AumSaiRam/.ssh/id_ed25519")
       host        = self.public_ip
     }
 
@@ -82,7 +82,7 @@ resource "aws_instance" "ansible_host" {
     connection {
       type        = "ssh"
       user        = "ec2-user"
-      private_key = file("/Users/koteswarp/.ssh/id_ed25519")
+      private_key = file("C:/Users/AumSaiRam/.ssh/id_ed25519")
       host        = self.public_ip
     }
 
@@ -101,7 +101,7 @@ resource "aws_instance" "ansible_host" {
     connection {
       type        = "ssh"
       user        = "ec2-user"
-      private_key = file("/Users/koteswarp/.ssh/id_ed25519")
+      private_key = file("C:/Users/AumSaiRam/.ssh/id_ed25519")
       host        = self.public_ip
     }
 
