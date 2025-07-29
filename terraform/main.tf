@@ -48,24 +48,7 @@ resource "aws_instance" "ansible_host" {
     Name = var.name
   }
 
-  # Step 1: Create Jenkins .ssh directory
-  provisioner "remote-exec" {
-    connection {
-      type        = "ssh"
-      user        = "ec2-user"
-      private_key = file("/Users/koteswarp/.ssh/id_ed25519")
-      host        = self.public_ip
-    }
-
-    inline = [
-      "echo 'Creating Jenkins .ssh directory...'",
-      "sudo mkdir -p /var/lib/jenkins/.ssh",
-      "sudo chown -R jenkins:jenkins /var/lib/jenkins/.ssh",
-      "sudo chmod 700 /var/lib/jenkins/.ssh"
-    ]
-  }
-
-  # Step 2: Upload the key to /tmp
+  # Step 1: Upload SSH private key to EC2
   provisioner "file" {
     connection {
       type        = "ssh"
@@ -73,12 +56,11 @@ resource "aws_instance" "ansible_host" {
       private_key = file("/Users/koteswarp/.ssh/id_ed25519")
       host        = self.public_ip
     }
-
     source      = "/Users/koteswarp/.ssh/id_ed25519"
     destination = "/tmp/my-key.pem"
   }
 
-  # Step 3: Move key and check Jenkins password
+  # Step 4: Optional Jenkins init password printout
   provisioner "remote-exec" {
     connection {
       type        = "ssh"
@@ -88,16 +70,45 @@ resource "aws_instance" "ansible_host" {
     }
 
     inline = [
-      "echo 'Moving SSH key to Jenkins .ssh directory...'",
-      "sudo mv /tmp/my-key.pem /var/lib/jenkins/.ssh/my-key.pem",
-      "sudo chown jenkins:jenkins /var/lib/jenkins/.ssh/my-key.pem",
-      "sudo chmod 600 /var/lib/jenkins/.ssh/my-key.pem",
-      "echo 'Waiting 5 minutes for Jenkins to initialize...'",
+      "echo 'Waiting for Jenkins to initialize...'",
       "sleep 180",
       "echo 'Jenkins Initial Admin Password:'",
-      "sudo cat /var/lib/jenkins/secrets/initialAdminPassword || echo 'Not ready yet...'",
-      "sudo yum install python3-pip",
-      "sudo /usr/bin/python3 -m pip install boto3 botocore"
+      "sudo cat /var/lib/jenkins/secrets/initialAdminPassword || echo 'Not ready yet...'"
+    ]
+  }
+
+  # Step 2: Setup Jenkins .ssh folder and move key with proper permissions
+  provisioner "remote-exec" {
+    connection {
+      type        = "ssh"
+      user        = "ec2-user"
+      private_key = file("/Users/koteswarp/.ssh/id_ed25519")
+      host        = self.public_ip
+    }
+
+    inline = [
+      "echo 'Preparing Jenkins SSH directory and key...'",
+      "sudo mkdir -p /var/lib/jenkins/.ssh",
+      "sudo mv /tmp/my-key.pem /var/lib/jenkins/.ssh/my-key.pem",
+      "sudo chown -R jenkins:jenkins /var/lib/jenkins/.ssh",
+      "sudo chmod 700 /var/lib/jenkins/.ssh",
+      "sudo chmod 400 /var/lib/jenkins/.ssh/my-key.pem"
+    ]
+  }
+
+  # Step 3: Set permissions for AWS credentials too
+  provisioner "remote-exec" {
+    connection {
+      type        = "ssh"
+      user        = "ec2-user"
+      private_key = file("/Users/koteswarp/.ssh/id_ed25519")
+      host        = self.public_ip
+    }
+
+    inline = [
+      "echo 'Fixing permissions on AWS credentials...'",
+      "sudo chown -R jenkins:jenkins /var/lib/jenkins/.aws",
+      "sudo chmod 600 /var/lib/jenkins/.aws/credentials"
     ]
   }
 
